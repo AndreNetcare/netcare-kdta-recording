@@ -1,0 +1,33 @@
+{
+  "name": "netcare-kdta-testrecording-tool",
+  "version": "1.0.0",
+  "description": "Tool for recording and generating Tests for the netcare KDTA Framework",
+  "main": "main.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && electron ./dist/main.js"
+  },
+  "keywords": [
+    "Testautomation",
+    "KDTA",
+    "netcare",
+    "Testrecording",
+    "Browser"
+  ],
+  "author": "André Gluderer",
+  "license": "ISC",
+  "dependencies": {
+    "@types/codemirror": "0.0.55",
+    "codemirror": "^5.34.0",
+    "electron": "^1.7.11",
+    "electron-tabs": "^0.9.0",
+    "electron-titlebar": "0.0.3",
+    "monaco": "1.201704190613.0",
+    "monaco-loader": "^0.8.2",
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^9.4.0"
+  }
+}
