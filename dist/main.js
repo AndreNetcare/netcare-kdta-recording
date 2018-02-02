@@ -22,7 +22,7 @@ function createWindow() {
     else {
         // Create the browser window.
         mainWindow = new electron_1.BrowserWindow({
-            frame: false,
+            frame: true,
             height: 720,
             width: 900,
             icon: path.join(__dirname, '../assets/icons/netcare_app_logo_client_v3_128x128.png')
