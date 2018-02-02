@@ -37,7 +37,7 @@ const textArea = <HTMLTextAreaElement>document.getElementById("codemirror");
         lineWrapping: true,
         foldGutter: true,
         //theme: 'dracula',
-        theme: 'duotone-light',
+        //theme: 'duotone-light',
         showCursorWhenSelecting: true,
         viewportMargin: Infinity,
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],

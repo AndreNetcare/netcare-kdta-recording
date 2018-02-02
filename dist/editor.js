@@ -26,7 +26,7 @@ editor = CodeMirror.fromTextArea(textArea, {
     lineWrapping: true,
     foldGutter: true,
     //theme: 'dracula',
-    theme: 'duotone-light',
+    //theme: 'duotone-light',
     showCursorWhenSelecting: true,
     viewportMargin: Infinity,
     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
