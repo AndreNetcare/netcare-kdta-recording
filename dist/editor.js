@@ -58,7 +58,8 @@ var tab = tabGroup.addTab({
     visible: true,
     active: true,
     webviewAttributes: {
-        'nodeintegration': true
+        'nodeintegration': true,
+        'preload': "../dist/test.js"
     }
 });
 document.getElementById("mainContent").addEventListener("click", function (e) { return mouseDown(e); });
@@ -68,9 +69,14 @@ var _loop_1 = function (tab_1) {
         webview.openDevTools();
         console.log(webview.getWebContents());
         //webview.getWebContents().getElementsByTagName("body")[0].addEventListener ("click", (e:MouseEvent) => mouseDown(e));
-        var code = "console.log('lol'); \n                window.addEventListener (\"click\", function (e){\n                        var x = e.x;\n                        var y = e.y;\n                        console.log('x=' + x + ' y=' + y);\n                        updateCodeMirror('clicked at: ' + 'x=' + x + ' y=' + y);\n                        //const {ipcRenderer} = require('electron');\n                        //var remote = require('remote');\n                        //var ipc = remote.require('ipc');\n                        //ipc.send(\"alert-something\", 'clicked in borwser at: ' + 'x=' + x + ' y=' + y);   \n                });";
-        webview.executeJavaScript(code);
+        var code = "console.log('lol'); \n                window.addEventListener (\"click\", function (e){\n                        var x = e.x;\n                        var y = e.y;\n                        console.log('x=' + x + ' y=' + y);\n                        this.updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);\n                        //const {ipcRenderer} = require('electron');\n                        //var remote = require('remote');\n                        //var ipc = remote.require('ipc');\n                        //ipc.send(\"alert-something\", 'clicked in borwser at: ' + 'x=' + x + ' y=' + y);   \n                });";
+        //webview.executeJavaScript(code); 
         // alert-something
+        webview.addEventListener('ipc-message', function (event) {
+            console.log(event.channel);
+            updateCodeMirror(event.channel);
+        });
+        //webview.send('alert-something' , {msg:'hello from main process'});
     });
 };
 for (var _i = 0, _a = tabGroup.getTabs(); _i < _a.length; _i++) {
@@ -94,7 +100,8 @@ function mouseDown(event) {
     */
 }
 updateCodeMirror("fsdf");
-ipcRenderer.on("alert-something", function (event, data) {
+ipcRenderer.on("alert-something", function (data) {
+    console.log("recived something");
     updateCodeMirror(data);
 });
 //# sourceMappingURL=editor.js.map

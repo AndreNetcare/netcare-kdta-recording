@@ -74,7 +74,8 @@ src: "http://electron.atom.io",
 visible: true,
 active: true,
 webviewAttributes: {
-        'nodeintegration': true
+        'nodeintegration': true,
+        'preload' : "../dist/test.js"
     }
 });
 
@@ -83,6 +84,7 @@ document.getElementById("mainContent").addEventListener ("click", (e:MouseEvent)
 
 for (let tab of tabGroup.getTabs()){
         const webview = tab.webview;
+        
         webview.addEventListener('dom-ready', () => {
                 webview.openDevTools()
                 console.log(webview.getWebContents());
@@ -93,14 +95,19 @@ for (let tab of tabGroup.getTabs()){
                         var x = e.x;
                         var y = e.y;
                         console.log('x=' + x + ' y=' + y);
-                        updateCodeMirror('clicked at: ' + 'x=' + x + ' y=' + y);
+                        this.updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);
                         //const {ipcRenderer} = require('electron');
                         //var remote = require('remote');
                         //var ipc = remote.require('ipc');
                         //ipc.send("alert-something", 'clicked in borwser at: ' + 'x=' + x + ' y=' + y);   
                 });`;
-                webview.executeJavaScript(code); 
+                //webview.executeJavaScript(code); 
                 // alert-something
+                webview.addEventListener('ipc-message', (event: any) => {
+                    console.log(event.channel)
+                    updateCodeMirror(event.channel);
+                  })
+                //webview.send('alert-something' , {msg:'hello from main process'});
                  
         })
         
@@ -125,6 +132,7 @@ function mouseDown(event: MouseEvent) {
 
  updateCodeMirror("fsdf");
 
- ipcRenderer.on("alert-something",function(event:any,data:any){
+ ipcRenderer.on("alert-something",function(data:any){
+     console.log("recived something");
         updateCodeMirror(data);
     });
