@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 require('electron-titlebar');
+var ipcRenderer = require('electron').ipcRenderer;
 var CodeMirror = require("codemirror");
 var editor;
 var monacoglob;
@@ -31,24 +32,57 @@ editor = CodeMirror.fromTextArea(textArea, {
     viewportMargin: Infinity,
     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
 });
+function updateCodeMirror(data) {
+    var cm = editor;
+    var doc = cm.getDoc();
+    var cursor = doc.getCursor(); // gets the line number in the cursor position
+    var line = doc.getLine(cursor.line); // get the line contents
+    var pos = {
+        line: cursor.line,
+        ch: line.length - 1 // set the character position to the end of the line
+    };
+    doc.replaceRange('\n' + data + '\n', pos); // adds a new line
+}
 var TabGroup = require('electron-tabs');
 var tabGroup = new TabGroup();
 tabGroup.addTab({
     title: 'Google',
-    src: 'http://google.com'
+    src: 'http://google.com',
+    webviewAttributes: {
+        'nodeintegration': true
+    }
 });
-tabGroup.addTab({
+var tab = tabGroup.addTab({
     title: "Electron",
     src: "http://electron.atom.io",
     visible: true,
-    active: true
+    active: true,
+    webviewAttributes: {
+        'nodeintegration': true
+    }
 });
 document.getElementById("mainContent").addEventListener("click", function (e) { return mouseDown(e); });
+var _loop_1 = function (tab_1) {
+    var webview = tab_1.webview;
+    webview.addEventListener('dom-ready', function () {
+        webview.openDevTools();
+        console.log(webview.getWebContents());
+        //webview.getWebContents().getElementsByTagName("body")[0].addEventListener ("click", (e:MouseEvent) => mouseDown(e));
+        var code = "console.log('lol'); \n                window.addEventListener (\"click\", function (e){\n                        var x = e.x;\n                        var y = e.y;\n                        console.log('x=' + x + ' y=' + y);\n                        updateCodeMirror('clicked at: ' + 'x=' + x + ' y=' + y);\n                        //const {ipcRenderer} = require('electron');\n                        //var remote = require('remote');\n                        //var ipc = remote.require('ipc');\n                        //ipc.send(\"alert-something\", 'clicked in borwser at: ' + 'x=' + x + ' y=' + y);   \n                });";
+        webview.executeJavaScript(code);
+        // alert-something
+    });
+};
+for (var _i = 0, _a = tabGroup.getTabs(); _i < _a.length; _i++) {
+    var tab_1 = _a[_i];
+    _loop_1(tab_1);
+}
 function mouseDown(event) {
     console.log('dfgdfgjij');
     var x = event.x;
     var y = event.y;
     console.log('x=' + x + ' y=' + y);
+    updateCodeMirror('clicked at: ' + 'x=' + x + ' y=' + y);
     //alert();
     /*
     let line = editor.getPosition();
@@ -59,4 +93,8 @@ function mouseDown(event) {
     editor.executeEdits("my-source", [op]);
     */
 }
+updateCodeMirror("fsdf");
+ipcRenderer.on("alert-something", function (event, data) {
+    updateCodeMirror(data);
+});
 //# sourceMappingURL=editor.js.map
