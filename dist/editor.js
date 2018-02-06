@@ -59,7 +59,7 @@ var tab = tabGroup.addTab({
     active: true,
     webviewAttributes: {
         'nodeintegration': true,
-        'preload': "../dist/test.js"
+        'preload': "../dist/inspector.js"
     }
 });
 document.getElementById("mainContent").addEventListener("click", function (e) { return mouseDown(e); });

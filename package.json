@@ -18,6 +18,7 @@
   "author": "André Gluderer",
   "license": "ISC",
   "dependencies": {
+    "@typed/hashmap": "^1.0.1",
     "@types/codemirror": "0.0.55",
     "codemirror": "^5.34.0",
     "electron": "^1.7.11",

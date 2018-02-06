@@ -1,11 +1,19 @@
  //var remote = require('remote');
  //var ipc = remote.require('ipc');
+
 const {ipcRenderer} = require('electron')
+var kdtamap = require("./kdtamap");
+
+
 console.log("preload");
 
 function updateCodeMirror2(data: string){
    console.log("haha: " + data);
 }
+
+let rightClickPosition: any = null
+
+
 
 window.addEventListener ("click", function (e){
     var x = e.x;
@@ -19,8 +27,13 @@ window.addEventListener ("click", function (e){
     //const {ipcRenderer} = require('electron');
     //var remote = require('remote');
     //var ipc = remote.require('ipc');
-    ipcRenderer.sendToHost(target + ' clicked at: ' + 'x=' + x + ' y=' + y + ' - id: ' + id + ' class: ' + elementclass + ' href: ' + elementhref);   
+    ipcRenderer.sendToHost(target + kdtamap.click() + ' ' + 'x=' + x + ' y=' + y + ' - id: ' + id + ' class: ' + elementclass + ' href: ' + elementhref);   
 });
+
+window.addEventListener ("contextmenu", function (e){
+    e.preventDefault()
+    alert("TO DO: Context Menu :D");
+}, false);
 
 function targetInfo(target: EventTarget){
     

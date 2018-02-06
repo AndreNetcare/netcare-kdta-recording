@@ -6,6 +6,7 @@ console.log("preload");
 function updateCodeMirror2(data) {
     console.log("haha: " + data);
 }
+var rightClickPosition = null;
 window.addEventListener("click", function (e) {
     var x = e.x;
     var y = e.y;
@@ -20,9 +21,13 @@ window.addEventListener("click", function (e) {
     //var ipc = remote.require('ipc');
     ipcRenderer.sendToHost(target + kdtamap.click() + ' ' + 'x=' + x + ' y=' + y + ' - id: ' + id + ' class: ' + elementclass + ' href: ' + elementhref);
 });
+window.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    alert("TO DO: Context Menu :D");
+}, false);
 function targetInfo(target) {
 }
 window.addEventListener("keypress", function (e) {
     ipcRenderer.sendToHost('enterd: ' + e.key);
 });
-//# sourceMappingURL=test.js.map
+//# sourceMappingURL=inspector.js.map

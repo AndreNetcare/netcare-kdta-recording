@@ -75,7 +75,8 @@ visible: true,
 active: true,
 webviewAttributes: {
         'nodeintegration': true,
-        'preload' : "../dist/test.js"
+        'preload' : "../dist/inspector.js"
+      
     }
 });
 
@@ -136,3 +137,5 @@ function mouseDown(event: MouseEvent) {
      console.log("recived something");
         updateCodeMirror(data);
     });
+
+  
