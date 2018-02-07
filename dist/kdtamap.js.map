@@ -1,1 +1,1 @@
-{"version":3,"file":"kdtamap.js","sourceRoot":"","sources":["../src/kdtamap.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,GAAG;IACb,KAAK,EAAE;QACL,MAAM,CAAC,aAAa,CAAC;IACvB,CAAC;IAEH,QAAQ,EAAE;QACN,MAAM,CAAC,yDAAyD,CAAC;IACnE,CAAC;CACF,CAAC"}
+{"version":3,"file":"kdtamap.js","sourceRoot":"","sources":["../src/kdtamap.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,GAAG;IACb,KAAK,EAAE,UAAS,KAAa;QAC3B,MAAM,CAAC,aAAa,GAAG,KAAK,GAAG,GAAG,CAAC;IACrC,CAAC;IAEH,QAAQ,EAAE,UAAS,KAAa,EAAE,IAAY;QAC1C,MAAM,CAAC,YAAY,GAAG,KAAK,GAAG,gBAAgB,GAAG,IAAI,GAAE,GAAG,CAAC;IAC7D,CAAC;CACF,CAAC"}

@@ -1,9 +1,9 @@
 module.exports = {
-    click: function () {
-        return "|''click''|";
+    click: function (xpath) {
+        return "|''click''|" + xpath + "|";
     },
-    withText: function () {
-        return "|''with''|xpath, id or other locator|''add text''|text|";
+    withText: function (xpath, text) {
+        return "|''with''|" + xpath + "|''add text''|" + text + "|";
     }
 };
 //# sourceMappingURL=kdtamap.js.map

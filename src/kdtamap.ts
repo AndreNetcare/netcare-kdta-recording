@@ -1,10 +1,10 @@
 module.exports = {
-    click: function() {
-      return "|''click''|";
+    click: function(xpath: string) {
+      return "|''click''|" + xpath + "|";
     },
   
-  withText: function() {
-      return "|''with''|xpath, id or other locator|''add text''|text|";
+  withText: function(xpath: string, text: string) {
+      return "|''with''|" + xpath + "|''add text''|" + text +"|";
     }
   };
 
