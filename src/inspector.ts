@@ -7,6 +7,14 @@ var lastXPath: string = "";
 var enterdKeysList: string[] = new Array;
 var keyEventTimer: any;
 
+var contextmenuHTML: string ="<div style=\"display:none; \"   id=\"contextMenu\">" +
+                            "<table  border=\"0\" cellpadding=\"0\" cellspacing=\"0\"" + 
+                            "style=\"border: thin solid #808080; cursor: default;\" width=\"100px\" bgcolor=\"White\">"+
+                            "<tr><td><div  class=\"ContextItem\">View</div></td></tr>"+
+                            "<tr><td ><div  class=\"ContextItem\">Edit</div></td></tr>"+
+                            "<tr><td ><div  class=\"ContextItem\">Delete</div></td></tr>"+
+                            "</table>";
+
 
 console.log("preload");
 
@@ -16,26 +24,33 @@ function updateCodeMirror2(data: string){
 
 let rightClickPosition: any = null
 
+window.addEventListener("load", addContextMenuHTML);
 
 
 window.addEventListener ("click", function (e){
-    var x = e.x;
-    var y = e.y;
-    console.log('x=' + x + ' y=' + y);
-    var target = e.target || e.srcElement;
-    var id = (e.target as HTMLElement).getAttribute('id');
-    var elementclass = (e.target as HTMLElement).getAttribute('class');
-    var elementhref = (e.target as HTMLElement).getAttribute('href');
-    updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);
-    //const {ipcRenderer} = require('electron');
-    //var remote = require('remote');
-    //var ipc = remote.require('ipc');
-    ipcRenderer.sendToHost(kdtamap.click(createXPathFromElement((e.target as HTMLElement))));   
+    if(document.getElementById("contextMenu").style.display == 'none'){
+        var x = e.x;
+        var y = e.y;
+        console.log('x=' + x + ' y=' + y);
+        var target = e.target || e.srcElement;
+        var id = (e.target as HTMLElement).getAttribute('id');
+        var elementclass = (e.target as HTMLElement).getAttribute('class');
+        var elementhref = (e.target as HTMLElement).getAttribute('href');
+        updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);
+        //const {ipcRenderer} = require('electron');
+        //var remote = require('remote');
+        //var ipc = remote.require('ipc');
+        ipcRenderer.sendToHost(kdtamap.click(createXPathFromElement((e.target as HTMLElement))));
+    }else{
+        hideMenu("contextMenu");
+    }
+       
 });
 
 window.addEventListener ("contextmenu", function (e){
     e.preventDefault()
-    alert("TO DO: Context Menu :D");
+    //alert("TO DO: Context Menu :D");
+    showMenu("contextMenu",e)
 }, false);
 
 function createXPathFromElement(elm: any) { //TO DO Make more genius 
@@ -90,3 +105,26 @@ function keyEnteredOver(){
         ipcRenderer.sendToHost(kdtamap.withText(lastXPath, str))
     }
 }
+
+function addContextMenuHTML(){
+
+    var htmlbody = document.body;
+    console.log(htmlbody);
+    htmlbody.insertAdjacentHTML( 'beforeend', contextmenuHTML );
+    
+}
+
+function showMenu(control: string, e: any) {
+    var posx = e.clientX +window.pageXOffset +'px'; //Left Position of Mouse Pointer
+    var posy = e.clientY + window.pageYOffset + 'px'; //Top Position of Mouse Pointer
+    document.getElementById(control).style.position = 'absolute';
+    document.getElementById(control).style.display = 'inline';
+    document.getElementById(control).style.left = posx;
+    document.getElementById(control).style.top = posy;           
+}
+function hideMenu(control: string) {
+
+    document.getElementById(control).style.display = 'none'; 
+}
+
+

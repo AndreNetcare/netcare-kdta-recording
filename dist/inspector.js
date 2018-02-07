@@ -5,28 +5,42 @@ var kdtamap = require("./kdtamap");
 var lastXPath = "";
 var enterdKeysList = new Array;
 var keyEventTimer;
+var contextmenuHTML = "<div style=\"display:none; \"   id=\"contextMenu\">" +
+    "<table  border=\"0\" cellpadding=\"0\" cellspacing=\"0\"" +
+    "style=\"border: thin solid #808080; cursor: default;\" width=\"100px\" bgcolor=\"White\">" +
+    "<tr><td><div  class=\"ContextItem\">View</div></td></tr>" +
+    "<tr><td ><div  class=\"ContextItem\">Edit</div></td></tr>" +
+    "<tr><td ><div  class=\"ContextItem\">Delete</div></td></tr>" +
+    "</table>";
 console.log("preload");
 function updateCodeMirror2(data) {
     console.log("haha: " + data);
 }
 var rightClickPosition = null;
+window.addEventListener("load", addContextMenuHTML);
 window.addEventListener("click", function (e) {
-    var x = e.x;
-    var y = e.y;
-    console.log('x=' + x + ' y=' + y);
-    var target = e.target || e.srcElement;
-    var id = e.target.getAttribute('id');
-    var elementclass = e.target.getAttribute('class');
-    var elementhref = e.target.getAttribute('href');
-    updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);
-    //const {ipcRenderer} = require('electron');
-    //var remote = require('remote');
-    //var ipc = remote.require('ipc');
-    ipcRenderer.sendToHost(kdtamap.click(createXPathFromElement(e.target)));
+    if (document.getElementById("contextMenu").style.display == 'none') {
+        var x = e.x;
+        var y = e.y;
+        console.log('x=' + x + ' y=' + y);
+        var target = e.target || e.srcElement;
+        var id = e.target.getAttribute('id');
+        var elementclass = e.target.getAttribute('class');
+        var elementhref = e.target.getAttribute('href');
+        updateCodeMirror2('clicked at: ' + 'x=' + x + ' y=' + y);
+        //const {ipcRenderer} = require('electron');
+        //var remote = require('remote');
+        //var ipc = remote.require('ipc');
+        ipcRenderer.sendToHost(kdtamap.click(createXPathFromElement(e.target)));
+    }
+    else {
+        hideMenu("contextMenu");
+    }
 });
 window.addEventListener("contextmenu", function (e) {
     e.preventDefault();
-    alert("TO DO: Context Menu :D");
+    //alert("TO DO: Context Menu :D");
+    showMenu("contextMenu", e);
 }, false);
 function createXPathFromElement(elm) {
     var allNodes = document.getElementsByTagName('*');
@@ -89,5 +103,21 @@ function keyEnteredOver() {
     if (lastXPath != undefined || null) {
         ipcRenderer.sendToHost(kdtamap.withText(lastXPath, str));
     }
+}
+function addContextMenuHTML() {
+    var htmlbody = document.body;
+    console.log(htmlbody);
+    htmlbody.insertAdjacentHTML('beforeend', contextmenuHTML);
+}
+function showMenu(control, e) {
+    var posx = e.clientX + window.pageXOffset + 'px'; //Left Position of Mouse Pointer
+    var posy = e.clientY + window.pageYOffset + 'px'; //Top Position of Mouse Pointer
+    document.getElementById(control).style.position = 'absolute';
+    document.getElementById(control).style.display = 'inline';
+    document.getElementById(control).style.left = posx;
+    document.getElementById(control).style.top = posy;
+}
+function hideMenu(control) {
+    document.getElementById(control).style.display = 'none';
 }
 //# sourceMappingURL=inspector.js.map
