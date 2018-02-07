@@ -12,8 +12,9 @@
     <script src="../node_modules/codemirror/lib/codemirror.js"></script>
     <script src="../node_modules/codemirror/addon/mode/simple.js"></script>
     <script src="../assets/js/codemirror-modes/fitnesse.js"></script>
-    
+    <script>window.$ = window.jQuery = require('jquery');</script>
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/record_button.css">
 
 </head>
 <body>
@@ -22,9 +23,13 @@
         <img style="height:1em;" src="../assets/icons/netcare_icon_n_inverted.png">
         netcare KDTA Testrecording Toolset</div>
     </div>-->
+    <div class="socket">
+        <div class="button"></div>
+      </div>
 <div id="mainContent">
     <div id="container">
         <textarea id="codemirror"></textarea>
+        
     </div>
 	
 	<div id="browser">
@@ -38,7 +43,9 @@
 </div>
     <script>
        require('../dist/editor')
-
+       $('.socket').on('click', function(){
+            $('.button').toggleClass('active');
+        });
        
     </script>
 
